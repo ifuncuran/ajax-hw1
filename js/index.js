@@ -1,6 +1,6 @@
 const input = document.getElementsByClassName('search__field')[0];
 const requestURL =
-  'http://api.themoviedb.org/3/search/movie?api_key=f680a867566257f0ead418be1d746aca&query=';
+  'https://api.themoviedb.org/3/search/movie?api_key=f680a867566257f0ead418be1d746aca&query=';
 
 const maxSuggests = 10;
 const maxLocalSuggest = 5;
