@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="css/style.css" rel="stylesheet" />
+    <title>hh ajax homework1</title>
+  </head>
+  <body>
+    <div class="search">
+      <div class="search__field-container">
+        <input
+          type="text"
+          class="search__field"
+          placeholder="Введите поисковой запрос"
+        />
+        <button class="search__button" onclick="search()">Поиск</button>
+      </div>
+      <div class="search__dropdown">
+        <ul class="search__list">
+          <li class="search__list-item">
+            <div
+              class="search__suggestion-container"
+              onclick="applySuggest(this)"
+            ></div>
+          </li>
+          <li class="search__list-item">
+            <div
+              class="search__suggestion-container"
+              onclick="applySuggest(this)"
+            ></div>
+          </li>
+          <li class="search__list-item">
+            <div
+              class="search__suggestion-container"
+              onclick="applySuggest(this)"
+            ></div>
+          </li>
+          <li class="search__list-item">
+            <div
+              class="search__suggestion-container"
+              onclick="applySuggest(this)"
+            ></div>
+          </li>
+          <li class="search__list-item">
+            <div
+              class="search__suggestion-container"
+              onclick="applySuggest(this)"
+            ></div>
+          </li>
+          <li class="search__list-item">
+            <div
+              class="search__suggestion-container"
+              onclick="applySuggest(this)"
+            ></div>
+          </li>
+          <li class="search__list-item">
+            <div
+              class="search__suggestion-container"
+              onclick="applySuggest(this)"
+            ></div>
+          </li>
+          <li class="search__list-item">
+            <div
+              class="search__suggestion-container"
+              onclick="applySuggest(this)"
+            ></div>
+          </li>
+          <li class="search__list-item">
+            <div
+              class="search__suggestion-container"
+              onclick="applySuggest(this)"
+            ></div>
+          </li>
+          <li class="search__list-item">
+            <div
+              class="search__suggestion-container"
+              onclick="applySuggest(this)"
+            ></div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="result">
+      <h3>Результаты поиска:</h3>
+      <div class="result__container">
+        <div class="result__title"></div>
+        <div class="result__vote"></div>
+        <div class="result__image-container">
+          <img class="result__image" src="" />
+        </div>
+      </div>
+    </div>
+
+    <div class="lastSearches">
+      <h3>Предыдущие запросы</h3>
+      <div class="lastSearches__item"></div>
+      <div class="lastSearches__item"></div>
+      <div class="lastSearches__item"></div>
+    </div>
+
+    <script src="js/index.js"></script>
+  </body>
+</html>
