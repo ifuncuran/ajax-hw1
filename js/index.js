@@ -1,14 +1,22 @@
 const input = document.getElementsByClassName('search__field')[0];
 const requestURL =
   'https://api.themoviedb.org/3/search/movie?api_key=f680a867566257f0ead418be1d746aca&query=';
+<<<<<<< HEAD
+=======
+const urlToImg = 'https://image.tmdb.org/t/p/original/';
+>>>>>>> gh-pages
 
 const maxSuggests = 10;
 const maxLocalSuggest = 5;
 const maxLastSearches = 3;
 
-let LocalElems = localStorage.getItem('items')
-  ? JSON.parse(localStorage.getItem('items'))
-  : [];
+let LocalElems = updateLocalElems();
+
+function updateLocalElems() {
+  return localStorage.getItem('items')
+    ? JSON.parse(localStorage.getItem('items'))
+    : [];
+}
 
 function boldString(str, find) {
   return str.replaceAll(find, '<b>' + find + '</b>');
@@ -18,6 +26,14 @@ function checkIsInArr(arr, id) {
   return arr.some(function (arrVal) {
     return id === arrVal.idtmdb;
   });
+}
+
+function setLocalStorage() {
+  try {
+    localStorage.setItem('items', JSON.stringify(LocalElems));
+  } catch (e) {
+    console.error('Возникла ошибка:', e);
+  }
 }
 
 function sendRequest(text) {
@@ -33,46 +49,40 @@ function sendRequest(text) {
   });
 }
 
+function showResults(title, vote, imgSrc) {
+  document.getElementsByClassName('result__title')[0].innerHTML = title;
+
+  document.getElementsByClassName('result__vote')[0].innerHTML = vote;
+
+  document.getElementsByClassName('result__image')[0].src = imgSrc;
+}
+
 //запрос на сервер по введенному значению и обновление элементов страницы + добавление элемента в localStorage:
 function search() {
   sendRequest(input.value)
     .then((data) => {
       if (data['total_results'] != 0) {
-        console.log(data['results'][0]['title']);
+        showResults(
+          data['results'][0]['title'],
+          data['results'][0]['vote_average'],
+          urlToImg + data['results'][0]['poster_path']
+        );
 
-        document.getElementsByClassName('result__title')[0].innerHTML =
-          data['results'][0]['title'];
-
-        document.getElementsByClassName('result__vote')[0].innerHTML =
-          data['results'][0]['vote_average'];
-
-        document.getElementsByClassName('result__image')[0].src =
-          'https://image.tmdb.org/t/p/original/' +
-          data['results'][0]['poster_path'];
-
-        LocalElems = localStorage.getItem('items')
-          ? JSON.parse(localStorage.getItem('items'))
-          : [];
+        LocalElems = updateLocalElems();
 
         LocalElems.push({
           name: data['results'][0]['title'],
           idtmdb: data['results'][0]['id'],
         });
-        localStorage.setItem('items', JSON.stringify(LocalElems));
+        setLocalStorage();
+
         updateLastSearches();
       } else {
-        document.getElementsByClassName('result__title')[0].innerHTML =
-          'Результатов по запросу не найдено';
+        showResults('Результатов по запросу не найдено', '', '');
 
-        document.getElementsByClassName('result__vote')[0].innerHTML = '';
-
-        document.getElementsByClassName('result__image')[0].src = '';
-
-        LocalElems = localStorage.getItem('items')
-          ? JSON.parse(localStorage.getItem('items'))
-          : [];
+        LocalElems = updateLocalElems();
         LocalElems.push({ name: input.value, idtmdb: null });
-        localStorage.setItem('items', JSON.stringify(LocalElems));
+        setLocalStorage();
         updateLastSearches();
       }
     })
