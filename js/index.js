@@ -1,6 +1,7 @@
 const input = document.getElementsByClassName('search__field')[0];
 const requestURL =
   'https://api.themoviedb.org/3/search/movie?api_key=f680a867566257f0ead418be1d746aca&query=';
+const urlToImg = 'https://image.tmdb.org/t/p/original/';
 
 const maxSuggests = 10;
 const maxLocalSuggest = 5;
@@ -33,22 +34,24 @@ function sendRequest(text) {
   });
 }
 
+function showResults(title, vote, imgSrc) {
+  document.getElementsByClassName('result__title')[0].innerHTML = title;
+
+  document.getElementsByClassName('result__vote')[0].innerHTML = vote;
+
+  document.getElementsByClassName('result__image')[0].src = imgSrc;
+}
+
 //запрос на сервер по введенному значению и обновление элементов страницы + добавление элемента в localStorage:
 function search() {
   sendRequest(input.value)
     .then((data) => {
       if (data['total_results'] != 0) {
-        console.log(data['results'][0]['title']);
-
-        document.getElementsByClassName('result__title')[0].innerHTML =
-          data['results'][0]['title'];
-
-        document.getElementsByClassName('result__vote')[0].innerHTML =
-          data['results'][0]['vote_average'];
-
-        document.getElementsByClassName('result__image')[0].src =
-          'https://image.tmdb.org/t/p/original/' +
-          data['results'][0]['poster_path'];
+        showResults(
+          data['results'][0]['title'],
+          data['results'][0]['vote_average'],
+          urlToImg + data['results'][0]['poster_path']
+        );
 
         LocalElems = localStorage.getItem('items')
           ? JSON.parse(localStorage.getItem('items'))
@@ -61,12 +64,7 @@ function search() {
         localStorage.setItem('items', JSON.stringify(LocalElems));
         updateLastSearches();
       } else {
-        document.getElementsByClassName('result__title')[0].innerHTML =
-          'Результатов по запросу не найдено';
-
-        document.getElementsByClassName('result__vote')[0].innerHTML = '';
-
-        document.getElementsByClassName('result__image')[0].src = '';
+        showResults('Результатов по запросу не найдено', '', '');
 
         LocalElems = localStorage.getItem('items')
           ? JSON.parse(localStorage.getItem('items'))
