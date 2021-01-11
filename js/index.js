@@ -25,6 +25,14 @@ function checkIsInArr(arr, id) {
   });
 }
 
+function setLocalStorage() {
+  try {
+    localStorage.setItem('items', JSON.stringify(LocalElems));
+  } catch (e) {
+    console.error('Возникла ошибка:', e);
+  }
+}
+
 function sendRequest(text) {
   return fetch(requestURL + '"' + text + '"').then((response) => {
     if (response.ok) {
@@ -63,14 +71,15 @@ function search() {
           name: data['results'][0]['title'],
           idtmdb: data['results'][0]['id'],
         });
-        localStorage.setItem('items', JSON.stringify(LocalElems));
+        setLocalStorage();
+
         updateLastSearches();
       } else {
         showResults('Результатов по запросу не найдено', '', '');
 
         LocalElems = updateLocalElems();
         LocalElems.push({ name: input.value, idtmdb: null });
-        localStorage.setItem('items', JSON.stringify(LocalElems));
+        setLocalStorage();
         updateLastSearches();
       }
     })
