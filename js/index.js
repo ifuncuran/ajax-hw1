@@ -7,9 +7,13 @@ const maxSuggests = 10;
 const maxLocalSuggest = 5;
 const maxLastSearches = 3;
 
-let LocalElems = localStorage.getItem('items')
-  ? JSON.parse(localStorage.getItem('items'))
-  : [];
+let LocalElems = updateLocalElems();
+
+function updateLocalElems() {
+  return localStorage.getItem('items')
+    ? JSON.parse(localStorage.getItem('items'))
+    : [];
+}
 
 function boldString(str, find) {
   return str.replaceAll(find, '<b>' + find + '</b>');
@@ -53,9 +57,7 @@ function search() {
           urlToImg + data['results'][0]['poster_path']
         );
 
-        LocalElems = localStorage.getItem('items')
-          ? JSON.parse(localStorage.getItem('items'))
-          : [];
+        LocalElems = updateLocalElems();
 
         LocalElems.push({
           name: data['results'][0]['title'],
@@ -66,9 +68,7 @@ function search() {
       } else {
         showResults('Результатов по запросу не найдено', '', '');
 
-        LocalElems = localStorage.getItem('items')
-          ? JSON.parse(localStorage.getItem('items'))
-          : [];
+        LocalElems = updateLocalElems();
         LocalElems.push({ name: input.value, idtmdb: null });
         localStorage.setItem('items', JSON.stringify(LocalElems));
         updateLastSearches();
